@@ -1,0 +1,9 @@
+# This file contains fish universal variable definitions.
+# VERSION: 3.0
+SETUVAR --export EDITOR:nvim
+SETUVAR --export PNPM_HOME:/home/andrius/\x2elocal/share/pnpm
+SETUVAR --export VISUAL:nvim
+SETUVAR __fish_initialized:3800
+SETUVAR fish_color_search_match:white
+SETUVAR fish_key_bindings:fish_default_key_bindings
+SETUVAR fish_user_paths:/home/andrius/\x2ecomposer/vendor/bin\x1e/home/andrius/\x2eopencode/bin\x1e/home/andrius/go/bin\x1e/home/andrius/\x2elocal/share/pnpm
