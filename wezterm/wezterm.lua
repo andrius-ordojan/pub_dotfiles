@@ -89,6 +89,11 @@ config.keys = {
 	{ key = "j", mods = "CTRL|SHIFT|ALT", action = act({ AdjustPaneSize = { "Down", 10 } }) },
 	{ key = "k", mods = "CTRL|SHIFT|ALT", action = act({ AdjustPaneSize = { "Up", 10 } }) },
 	{ key = "l", mods = "CTRL|SHIFT|ALT", action = act({ AdjustPaneSize = { "Right", 10 } }) },
+	{
+		key = "e",
+		mods = "LEADER",
+		action = wezterm.action.EmitEvent("trigger-vim-with-scrollback"),
+	},
 
 	-- {
 	-- 	key = "h",
@@ -162,6 +167,25 @@ config.mouse_bindings = {
 		alt_screen = false,
 	},
 }
+
+wezterm.on("trigger-vim-with-scrollback", function(window, pane)
+	local text = pane:get_lines_as_text(pane:get_dimensions().scrollback_rows)
+	local name = os.tmpname()
+	local f = io.open(name, "w+")
+	if f then
+		f:write(text)
+		f:flush()
+		f:close()
+	end
+
+	window:perform_action(
+		act.SpawnCommandInNewTab({
+			-- This launches a shell that runs nvim, then deletes the file ONLY after nvim quits
+			args = { "bash", "-c", 'nvim "$1"; rm "$1"', "bash", name },
+		}),
+		pane
+	)
+end)
 
 return config
 
